@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PremiumCalculatorApp.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,25 +13,15 @@ namespace PremiumCalculatorApp.Data
         {
             this._dbcontext = dbContext;
         }
-        public IEnumerable<SelectListItem> GetOccupations()
+       
+        public List<Occupation> GetAllOccupations()
         {
-           
-                List<SelectListItem> occupations = _dbcontext.Occupations.AsNoTracking()
-                    .OrderBy(n => n.OccupationName)
-                        .Select(n =>
-                        new SelectListItem 
-                        {
-                            Value = n.OccupationId.ToString(),
-                            Text = n.OccupationName
-                        }).ToList();
-                var occupationtip = new SelectListItem()
-                {
-                    Value = null,
-                    Text = "--- select occupation ---"
-                };
-                occupations.Insert(0, occupationtip);
-                return new SelectList(occupations, "Value", "Text");
-            
+            List<Occupation> occupations = new List<Occupation>();
+
+            occupations = (from list in _dbcontext.Occupations
+                           select list).ToList();
+            occupations.Insert(0, new Occupation { OccupationId = 0 , OccupationName = "--- select occupation ---" });
+            return occupations;
         }
     }
 }

@@ -2,6 +2,8 @@
 using PremiumCalculatorApp.Data;
 using PremiumCalculatorApp.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PremiumCalculatorApp.Controllers
 {
@@ -9,55 +11,66 @@ namespace PremiumCalculatorApp.Controllers
     {
         private readonly AppDbContext _dbContext;
         private readonly IUserRepository _userRepository;
-        private readonly UserEditViewModal userModel;
-        
+       
+
+      /// <summary>
+      /// Constructor to initialize Database, UserRepository and OccupationRepository Objects
+      /// </summary>
+      /// <param name="dbContext"></param>
+      /// <param name="userRepository"></param>
         public PremiumController(AppDbContext dbContext, IUserRepository userRepository)
         {
             this._dbContext = dbContext;
-            this._userRepository = userRepository;
-            this.userModel = new UserEditViewModal();
-          
+            this._userRepository = userRepository;         
+              
         }
+      
 
-        public IActionResult Index()
-        {          
-            var userList = _userRepository.GetUsers();
-            return View(userList);
-        }
-
-        [HttpGet]
-        public ActionResult Index(Guid userId)
-        {
-            var userList = _userRepository.GetUser(userId);
-            return View(userList);
-        }
-
+        /// <summary>
+        /// First Action Method triggered to load the UserEditView
+        /// </summary>
+        /// <returns>UserEditView Model</returns>
         // GET: Premium/Create
-        public ActionResult Create(Guid UserId)
-        {
-            var user = _userRepository.CreateUser();
-            return View(user);           
+        [HttpGet]
+        public ActionResult Create()
+        {          
+            CommonUserViewModel model = new CommonUserViewModel();            
+            model.UserDisplay = new List<UserDisplayViewModel>(); 
+            model.UserEdit = _userRepository.LoadOccupationList();
+            ViewBag.OccupationList = model.UserEdit.OccupationList;          
+            return View(model);           
         }
         
-
+        /// <summary>
+        /// Action is triggred when Occupation dropdownlist is selected to Calculate Monthly Premium
+        /// </summary>
+        /// <param name="model">UserEditView & UserDisplayView</param>
+        /// <returns>Calculated Monthly Premium and User entered data</returns>
         // POST: Premium/Create        
-        [HttpPost]
-        public ActionResult Create(UserEditViewModal model)
+        [HttpPost("Create")]
+        public ActionResult Create(CommonUserViewModel model)
         {
             try
             {
+                
                 if (ModelState.IsValid)
-                {
-                  
-                   bool saved = _userRepository.SaveUser(model);
-                   if (saved)
+                {                   
+                   var savedUserId = _userRepository.SaveUser(model.UserEdit);
+                   if (savedUserId != Guid.Empty)
                    {
-                        return RedirectToAction("Index", new { @userId = model.UserId });
+                        CommonUserViewModel updatedModel = new CommonUserViewModel();
+                        var userList = _userRepository.GetUser(savedUserId);
+                        updatedModel.UserDisplay = userList.ToList();                        
+                        updatedModel.UserEdit = model.UserEdit;
+                        updatedModel.UserEdit = _userRepository.LoadOccupationList();
+                        ViewBag.OccupationList = updatedModel.UserEdit.OccupationList;
+                        return View(updatedModel);                        
                    }
 
                 }
-                return NotFound();                
-                
+                model.UserEdit = _userRepository.LoadOccupationList();
+                ViewBag.OccupationList = model.UserEdit.OccupationList;
+                return View(model);               
             }
             catch (ApplicationException ex)
             {

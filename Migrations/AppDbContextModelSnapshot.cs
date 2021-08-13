@@ -29,15 +29,10 @@ namespace PremiumCalculatorApp.Migrations
                     b.Property<string>("OccupationName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RatingFactorRatingId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RatingId")
                         .HasColumnType("int");
 
                     b.HasKey("OccupationId");
-
-                    b.HasIndex("RatingFactorRatingId");
 
                     b.ToTable("Occupation");
 
@@ -87,8 +82,8 @@ namespace PremiumCalculatorApp.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("Factor")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Factor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Rating")
                         .IsRequired()
@@ -102,25 +97,25 @@ namespace PremiumCalculatorApp.Migrations
                         new
                         {
                             RatingId = 1,
-                            Factor = 1.0,
+                            Factor = 1.00m,
                             Rating = "Professional"
                         },
                         new
                         {
                             RatingId = 2,
-                            Factor = 1.25,
+                            Factor = 1.25m,
                             Rating = "White Collar"
                         },
                         new
                         {
                             RatingId = 3,
-                            Factor = 1.5,
+                            Factor = 1.50m,
                             Rating = "Light Manual"
                         },
                         new
                         {
                             RatingId = 4,
-                            Factor = 1.75,
+                            Factor = 1.75m,
                             Rating = "Heavy Manual"
                         });
                 });
@@ -137,8 +132,11 @@ namespace PremiumCalculatorApp.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("DeathSumInsured")
-                        .HasColumnType("real");
+                    b.Property<decimal>("DeathSumInsured")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MonthlyPremium")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -155,13 +153,6 @@ namespace PremiumCalculatorApp.Migrations
                     b.HasIndex("OccupationId");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("PremiumCalculatorApp.Models.Occupation", b =>
-                {
-                    b.HasOne("PremiumCalculatorApp.Models.RatingFactor", null)
-                        .WithMany("Occupations")
-                        .HasForeignKey("RatingFactorRatingId");
                 });
 
             modelBuilder.Entity("PremiumCalculatorApp.Models.User", b =>

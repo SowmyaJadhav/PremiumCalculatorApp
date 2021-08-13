@@ -8,6 +8,7 @@ namespace PremiumCalculatorApp.Models
         [Required]
         public int OccupationId { get; set; }
         public string OccupationName { get; set; }
+
         [Required]
         public int RatingId { get; set; }
 

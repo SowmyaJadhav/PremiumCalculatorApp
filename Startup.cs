@@ -57,7 +57,7 @@ namespace PremiumCalculatorApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Premium}/{action=Create}/{id?}");
             });
         }
     }

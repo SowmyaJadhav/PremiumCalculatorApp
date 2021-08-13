@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using PremiumCalculatorApp.Models;
 using System.Collections.Generic;
 
 namespace PremiumCalculatorApp.Data
 {
     public interface IOccupationRepository
-    {
-        IEnumerable<SelectListItem> GetOccupations();
+    {       
+        List<Occupation> GetAllOccupations();
     }
 }

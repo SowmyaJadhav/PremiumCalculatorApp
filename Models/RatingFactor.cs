@@ -11,8 +11,6 @@ namespace PremiumCalculatorApp.Models
         [Required]
         public string Rating { get; set; }
         [Required]
-        public double Factor { get; set; }
-
-        public List<Occupation> Occupations { get; set; }
+        public decimal Factor { get; set; }        
     }
 }

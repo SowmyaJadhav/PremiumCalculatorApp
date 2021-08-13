@@ -6,10 +6,10 @@ namespace PremiumCalculatorApp.Data
 {
     public interface IUserRepository
     {
-        List<UserDisplayViewModel> GetUsers();
+       
         List<UserDisplayViewModel> GetUser(Guid userId);
-        UserEditViewModal CreateUser();
-        bool SaveUser(UserEditViewModal userEdit);
+         UserEditViewModal LoadOccupationList();
+        Guid SaveUser(UserEditViewModal userEdit);
        
     }
 }

@@ -25,9 +25,9 @@ namespace PremiumCalculatorApp.Models
         public int RatingId { get; set; }
 
         [Required]
-        public float DeathSumInsured { get; set; }
+        public decimal DeathSumInsured { get; set; }
 
         [Required]
-        public float MonthlyPremium { get; set; }
+        public decimal MonthlyPremium { get; set; }
     }
 }

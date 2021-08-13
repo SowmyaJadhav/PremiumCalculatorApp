@@ -25,25 +25,25 @@ namespace PremiumCalculatorApp.Data
                 {
                     RatingId = 1,
                     Rating = "Professional",
-                    Factor = 1.0
+                    Factor = 1.00m
                 },
                 new RatingFactor
                 {
                     RatingId = 2,
                     Rating = "White Collar",
-                    Factor = 1.25
+                    Factor = 1.25m
                 },
                  new RatingFactor
                  {
                      RatingId = 3,
                      Rating = "Light Manual",
-                     Factor = 1.50
+                     Factor = 1.50m
                  },
                 new RatingFactor
                 {
                     RatingId = 4,
                     Rating = "Heavy Manual",
-                    Factor = 1.75
+                    Factor = 1.75m
                 });
 
             modelBuilder.Entity<Occupation>().HasData(

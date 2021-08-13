@@ -23,9 +23,9 @@ namespace PremiumCalculatorApp.ViewModels
         public string Occupation { get; set; }
 
         [Display(Name = "Death Sum Insured")]
-        public float DeathSumInsured { get; set; }
+        public decimal DeathSumInsured { get; set; }
 
         [Display(Name = "Monthly Premium")]
-        public float MonthlyPremium{ get; set; }
+        public decimal MonthlyPremium{ get; set; }
     }
 }
