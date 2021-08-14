@@ -12,7 +12,7 @@ namespace PremiumCalculatorApp.ViewModels
     {
         [Key]
         [HiddenInput(DisplayValue = false)]
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required ( AllowEmptyStrings = false, ErrorMessage = "Please enter Name")]
         [Display(Name = "Name")]

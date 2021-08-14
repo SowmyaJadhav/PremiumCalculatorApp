@@ -2,8 +2,6 @@
 using PremiumCalculatorApp.Data;
 using PremiumCalculatorApp.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PremiumCalculatorApp.Controllers
 {
@@ -33,11 +31,10 @@ namespace PremiumCalculatorApp.Controllers
         // GET: Premium/Create
         [HttpGet]
         public ActionResult Create()
-        {          
-            CommonUserViewModel model = new CommonUserViewModel();            
-            model.UserDisplay = new List<UserDisplayViewModel>(); 
-            model.UserEdit = _userRepository.LoadOccupationList();
-            ViewBag.OccupationList = model.UserEdit.OccupationList;          
+        {
+            UserEditViewModal model = new UserEditViewModal();         
+            model.OccupationList = _userRepository.LoadOccupationList();
+            ViewBag.OccupationList = model.OccupationList;          
             return View(model);           
         }
         
@@ -48,27 +45,25 @@ namespace PremiumCalculatorApp.Controllers
         /// <returns>Calculated Monthly Premium and User entered data</returns>
         // POST: Premium/Create        
         [HttpPost("Create")]
-        public ActionResult Create(CommonUserViewModel model)
+        public ActionResult Create(UserEditViewModal model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var savedUserId = _userRepository.SaveUser(model.UserEdit);
-                    if (savedUserId != Guid.Empty)
+                    var saved = _userRepository.SaveUser(model);
+                    if (saved)
                     {
-                        CommonUserViewModel updatedModel = new CommonUserViewModel();
-                        var userList = _userRepository.GetUser(savedUserId);
-                        updatedModel.UserDisplay = userList.ToList();
-                        updatedModel.UserEdit = model.UserEdit;
-                        updatedModel.UserEdit = _userRepository.LoadOccupationList();
-                        ViewBag.OccupationList = updatedModel.UserEdit.OccupationList;
-                        return View(updatedModel);
+                        ModelState["MonthlyPremium"].RawValue = model.MonthlyPremium;                     
+                        
+                        model.OccupationList = _userRepository.LoadOccupationList();
+                        ViewBag.OccupationList = model.OccupationList;                     
+
+                        return View(model);
                     }
-                }               
-                
-                model.UserEdit = _userRepository.LoadOccupationList();
-                ViewBag.OccupationList = model.UserEdit.OccupationList;
+                }
+                model.OccupationList = _userRepository.LoadOccupationList();
+                ViewBag.OccupationList = model.OccupationList;
                 return View(model);               
             }
             catch (ApplicationException ex)
