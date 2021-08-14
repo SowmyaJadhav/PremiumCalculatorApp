@@ -52,22 +52,21 @@ namespace PremiumCalculatorApp.Controllers
         {
             try
             {
-                
                 if (ModelState.IsValid)
-                {                   
-                   var savedUserId = _userRepository.SaveUser(model.UserEdit);
-                   if (savedUserId != Guid.Empty)
-                   {
+                {
+                    var savedUserId = _userRepository.SaveUser(model.UserEdit);
+                    if (savedUserId != Guid.Empty)
+                    {
                         CommonUserViewModel updatedModel = new CommonUserViewModel();
                         var userList = _userRepository.GetUser(savedUserId);
-                        updatedModel.UserDisplay = userList.ToList();                        
+                        updatedModel.UserDisplay = userList.ToList();
                         updatedModel.UserEdit = model.UserEdit;
                         updatedModel.UserEdit = _userRepository.LoadOccupationList();
                         ViewBag.OccupationList = updatedModel.UserEdit.OccupationList;
-                        return View(updatedModel);                        
-                   }
-
-                }
+                        return View(updatedModel);
+                    }
+                }               
+                
                 model.UserEdit = _userRepository.LoadOccupationList();
                 ViewBag.OccupationList = model.UserEdit.OccupationList;
                 return View(model);               

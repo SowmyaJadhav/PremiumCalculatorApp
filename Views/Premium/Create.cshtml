@@ -41,11 +41,7 @@
                 $("#datepicker").val("01-01-0001");
                 $("#txtDeathSumInsured").val("0.00");
                 $("#txtMonthlyPremium").val("0.00");
-                $('#Occupation').change(function () {
-                    var re = $("#Occupation option:selected").text();
-                    $("#Occupation option:selected").remove();                   
-                });
-
+                $('#Occupation')[0].selectedIndex = 0               
             });
         });
 
@@ -58,70 +54,71 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Please fill the below details to get the monthly premium</h4>
-        <hr />
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserEdit.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.UserEdit.Name, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "txtName" } })
-                @Html.ValidationMessageFor(model => model.UserEdit.Name, "", new { @class = "text-danger" })
-            </div>
+<div class="form-horizontal">
+    <h4>Please fill the below details to get the monthly premium</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserEdit.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.EditorFor(model => model.UserEdit.Name, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "txtName" } })
+            @Html.ValidationMessageFor(model => model.UserEdit.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserEdit.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.UserEdit.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "datepicker" } })
-                @Html.ValidationMessageFor(model => model.UserEdit.DateOfBirth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserEdit.Age, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.UserEdit.Age, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "age", @readOnly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.UserEdit.Age, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.UserEdit.DeathSumInsured, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.EditorFor(model => model.UserEdit.DeathSumInsured,  new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id= "txtDeathSumInsured" } })
-                @Html.ValidationMessageFor(model => model.UserEdit.DeathSumInsured, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(x => Model.UserEdit.SelectedOccupationId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(x => Model.UserEdit.SelectedOccupationId, new SelectList(@ViewBag.OccupationList, "OccupationId", "OccupationName"), htmlAttributes: new { @class = "form-control", id = "Occupation", @onchange = "this.form.action='Create'; this.form.controller='Premium', this.form.submit(); " })
-                @Html.ValidationMessageFor(x => x.UserEdit.SelectedOccupationId, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
     </div>
-}
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserEdit.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.EditorFor(model => model.UserEdit.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "datepicker", @Value = DateTime.Now } })
+            @Html.ValidationMessageFor(model => model.UserEdit.DateOfBirth, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserEdit.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.EditorFor(model => model.UserEdit.Age, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "age", @readOnly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.UserEdit.Age, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserEdit.DeathSumInsured, htmlAttributes: new { @class = "control-label col-md-4" })
+        <div class="col-md-5">
+            @Html.EditorFor(model => model.UserEdit.DeathSumInsured, new { htmlAttributes = new { @class = "form-control", @autofocus = "autofocus", id = "txtDeathSumInsured", @Value = "0.00" } })
+            @Html.ValidationMessageFor(model => model.UserEdit.DeathSumInsured, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => Model.UserEdit.SelectedOccupationId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-5">
+            @Html.DropDownListFor(x => Model.UserEdit.SelectedOccupationId, new SelectList(@ViewBag.OccupationList, "OccupationId", "OccupationName"), htmlAttributes: new { @class = "form-control", id = "Occupation" })
+            @Html.ValidationMessageFor(x => x.UserEdit.SelectedOccupationId, "", new { @class = "text-danger" })
+        </div>
+    </div>   
+</div>
+
 
 @if (Model.UserDisplay != null)
 {
-     foreach (var item in Model.UserDisplay)
+    foreach (var item in Model.UserDisplay)
     {
         <div class="form-group">
             @Html.LabelFor(model => item.MonthlyPremium, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-5" , style="color:maroon">               
-                @Html.EditorFor(model => item.MonthlyPremium, new { htmlAttributes = new { @class = "form-control", @style="color:Green", @autofocus = "autofocus", id = "txtMonthlyPremium", @readOnly = "readonly" } })
+                @Html.EditorFor(model => item.MonthlyPremium, new { htmlAttributes = new { @class = "form-control", @style = "color:Green", @autofocus = "autofocus", id = "txtMonthlyPremium", @readOnly = "readonly" } })
                 
             </div>
         </div>
     }
-   
+
 }
 
 <p>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">          
-            <input type="button" value="Reset" id="btnReset" style="color:blue"/>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Calculate Premium" id="btnSubmit" style="color:blue" />
+            <input type="button" value="Reset" id="btnReset" style="color:blue" />
         </div>
     </div>
 </p>
+}
 
 
