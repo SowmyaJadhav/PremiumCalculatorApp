@@ -54,8 +54,8 @@ namespace PremiumCalculatorApp.Controllers
                     var saved = _userRepository.SaveUser(model);
                     if (saved)
                     {
-                        ModelState["MonthlyPremium"].RawValue = model.MonthlyPremium;                     
-                        
+                        ModelState.SetModelValue("MonthlyPremium", model.MonthlyPremium, model.MonthlyPremium.ToString());
+                     
                         model.OccupationList = _userRepository.LoadOccupationList();
                         ViewBag.OccupationList = model.OccupationList;                     
 
