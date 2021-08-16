@@ -15,22 +15,22 @@ namespace PremiumCalculatorApp.ViewModels
         public Guid UserId { get; set; }
 
         [Required ( AllowEmptyStrings = false, ErrorMessage = "Please enter Name")]
-        [Display(Name = "Name")]
+        [Display(Name = "*Name")]
         [DataType(DataType.Text)]
         public string Name { get; set; }
         [Required]        
-        [Display(Name = "Age")]       
-        [Range(1, 150, ErrorMessage = "Please select Date of Birth  ")]
+        [Display(Name = "*Age")]       
+        [Range(1, 150, ErrorMessage = "Please select Date of Birth")]
         public int Age { get; set; }
 
         [Required]        
-        [Display(Name = " Date Of Birth")] 
+        [Display(Name = "*Date Of Birth")] 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
        
-        [Display(Name = "Occupation")]
+        [Display(Name = "*Occupation")]
         [Required]
         [Range(1, 7, ErrorMessage = "Please select Occupation ")]
         public int SelectedOccupationId { get; set; }
@@ -41,10 +41,10 @@ namespace PremiumCalculatorApp.ViewModels
         [DataType(DataType.Currency)]
         [DefaultValue("0.00")]
         [Range(typeof(decimal), "0.1", "9999.99", ErrorMessage = "The {0} field is required")]
-        [Display(Name = "Death Sum Insured Amount")]
+        [Display(Name = "Death Sum Insured Amount($)*")]
         public decimal DeathSumInsured { get; set; }
 
-        [Display(Name = "Monthly Premium")]
+        [Display(Name = "Monthly Premium($)")]
         public decimal MonthlyPremium { get; set; }
     }
 }
